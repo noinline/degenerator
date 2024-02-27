@@ -13,6 +13,7 @@
 
 struct data_t
 {
+	std::string input = "";
 	std::string password = "";
 	size_t length = {};
 	int count = {};
@@ -54,7 +55,8 @@ main(void)
 	std::printf("How many"
 				" " CYAN("passwords") " "
 									  "do you want to generate?: ");
-	scanf_s("%d", &data.count);
+	std::getline(std::cin, data.input);
+	data.count = std::stoi(data.input);
 	/* ensuring that password count is not less than one :lol: */
 	if (data.count < 1)
 	{
@@ -72,7 +74,8 @@ main(void)
 								" " CYAN("password") "? "
 													 "(up to"
 													 " " WHITE("32") "): ");
-	scanf_s("%zu", &data.length);
+	std::getline(std::cin, data.input);
+	data.length = std::stoull(data.input);
 	/* ensuring that password length is not exceeded */
 	if (data.length < 1 || data.length > 32)
 	{
