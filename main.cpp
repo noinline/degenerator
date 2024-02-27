@@ -54,8 +54,7 @@ int
 main(void)
 {
 	/* seed the random number generator with the current time */
-	srand(static_cast<unsigned int>(time(0)));
-	SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS);
+	srand(static_cast<unsigned int>(time(0)));	
 	SetConsoleTitleA("password degenerator :3");
 	std::printf("How many"
 				" " CYAN("passwords") " "
@@ -116,6 +115,5 @@ main(void)
 													   "of length"
 													   " " WHITE("%zu") ". \n",
 				data.count, data.length);
-	SetPriorityClass(GetCurrentProcess(), NORMAL_PRIORITY_CLASS);
 	return 0;
 }
