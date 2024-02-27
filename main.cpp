@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <iostream>
 #include <string>
+#include <vector>
 #include <windows.h>
 
 /* colors >~< */
@@ -17,31 +18,35 @@ struct data_t
 	std::string password = "";
 	size_t length = {};
 	int count = {};
-	int randomNum = {};
-	char randomChar = {};
-
+	char minChar = {};
+	char maxChar = {};
+	std::vector<char> vecPassword;
 } data;
 
 std::string
 generate_password(data_t &data)
 {
-	/* ensuring that password is going to be reset before generating a new one
-	 */
-	data.password.clear();
+	data.vecPassword.resize(data.length);
 	for (size_t i = 0; i < data.length; ++i)
 	{
-		do
-		{
-			/* print random char within ASCII range, 65-90, 97-122 */
-			data.randomNum = rand() % (122 - 48 + 1) + 48;
-			data.randomChar = static_cast<char>(data.randomNum);
-		} while (data.randomChar < '0' ||
-				 (data.randomChar > '9' && data.randomChar < 'A') ||
-				 (data.randomChar > 'Z' && data.randomChar < 'a') ||
-				 data.randomChar > 'z');
-
-		data.password.push_back(data.randomChar);
+		data.minChar = 'a';
+		data.maxChar = 'z';
+		if (rand() % 2 == 0)
+		{ /* 50% chance to include uppercase letters */
+			data.minChar = 'A';
+			data.maxChar = 'Z';
+		}
+		if (rand() % 2 == 0)
+		{ /* 50% chance to include digits */
+			data.minChar = '0';
+			data.maxChar = '9';
+		}
+		/* assign a random char within ASCII range, 65-90, 97-122 */
+		data.vecPassword[i] = static_cast<char>(
+			rand() % (data.maxChar - data.minChar + 1) + data.minChar);
 	}
+	data.password =
+		std::string(data.vecPassword.begin(), data.vecPassword.end());
 	return data.password;
 }
 
